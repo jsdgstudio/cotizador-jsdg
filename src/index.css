@@ -53,10 +53,12 @@ body {
     background-color: #1a1a1a !important;
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+    color: white !important;
   }
 
   /* Hide controls when printing */
-  .fixed {
+  .fixed,
+  button {
     display: none !important;
   }
 
@@ -70,9 +72,24 @@ body {
     min-height: 100vh;
   }
 
-  /* Force text colors */
+  /* Force text colors and backgrounds */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
+  }
+
+  /* Ensure inputs look like text */
+  input,
+  textarea {
+    background: transparent !important;
+    border: none !important;
+    color: white !important;
+    resize: none !important;
+  }
+
+  /* Specific overrides for table elements if needed */
+  .bg-black {
+    background-color: #000000 !important;
+    color: white !important;
   }
 }

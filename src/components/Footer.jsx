@@ -11,7 +11,7 @@ const Footer = ({ subtotal, iva, total }) => {
                     rel="noopener noreferrer"
                     className="text-gray-400 hover:text-white transition-colors"
                 >
-                    <Linkedin size={24} />
+                    <Linkedin size={24} fill="currentColor" />
                 </a>
                 <a
                     href="https://www.behance.net/jaimesilva"
