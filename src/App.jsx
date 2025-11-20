@@ -50,18 +50,18 @@ function App() {
 
     try {
       const canvas = await html2canvas(element, {
-        scale: 2,
+        scale: 4, // High resolution
         backgroundColor: '#1a1a1a',
-        useCORS: false, // Try disabling CORS for local assets
-        allowTaint: true, // Allow tainted canvas (might help with local images)
-        logging: true,
-        windowWidth: 1200,
+        useCORS: false,
+        allowTaint: true,
+        logging: false,
+        windowWidth: 1200, // Force desktop rendering
         onclone: (clonedDoc) => {
           const clonedElement = clonedDoc.getElementById('printable-content');
           if (clonedElement) {
-            clonedElement.style.width = '1100px';
+            clonedElement.style.width = '1000px'; // Fixed width for consistency
             clonedElement.style.maxWidth = 'none';
-            clonedElement.style.margin = '0';
+            clonedElement.style.margin = '0 auto';
             clonedElement.style.padding = '40px';
             clonedElement.style.height = 'auto';
           }
@@ -69,11 +69,24 @@ function App() {
       });
 
       const imgData = canvas.toDataURL('image/png');
-      const pdf = new jsPDF('p', 'mm', 'a4');
-      const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
 
-      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      // Calculate dimensions to fit A4
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth(); // 210mm
+      const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
+
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+
+      // Scale to fit width
+      const ratio = pageWidth / imgWidth;
+      const finalHeight = imgHeight * ratio;
+
+      // Set background color for the whole PDF
+      pdf.setFillColor(26, 26, 26); // #1a1a1a
+      pdf.rect(0, 0, pageWidth, pageHeight, 'F');
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, finalHeight);
       pdf.save('cotizacion_jsdg.pdf');
     } catch (error) {
       console.error("PDF Export Error:", error);
@@ -81,14 +94,25 @@ function App() {
     }
   };
 
+  const handlePrint = () => {
+    window.print();
+  };
+
   return (
     <div className="min-h-screen bg-dark text-white font-sans p-4 md:p-8">
       {/* Controls */}
-      <div className="fixed bottom-8 right-8 z-50">
+      <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
+        <button
+          onClick={handlePrint}
+          className="bg-gray-600 hover:bg-gray-700 text-white p-4 rounded-full shadow-lg transition-colors flex items-center gap-2"
+          title="Imprimir / Guardar como PDF (Vectorial)"
+        >
+          <span className="font-bold text-xs">Vector</span>
+        </button>
         <button
           onClick={handleExportPDF}
           className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-colors flex items-center gap-2"
-          title="Descargar PDF"
+          title="Descargar Imagen PDF"
         >
           <Download size={24} />
         </button>

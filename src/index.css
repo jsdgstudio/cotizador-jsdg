@@ -42,3 +42,37 @@ body {
   background-color: var(--color-dark);
   color: white;
 }
+
+@media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
+  body {
+    background-color: #1a1a1a !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  /* Hide controls when printing */
+  .fixed {
+    display: none !important;
+  }
+
+  /* Ensure content fits */
+  #printable-content {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 20px !important;
+    background-color: #1a1a1a !important;
+    min-height: 100vh;
+  }
+
+  /* Force text colors */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
