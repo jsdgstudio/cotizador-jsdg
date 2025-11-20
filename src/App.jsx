@@ -48,7 +48,7 @@ function App() {
   const handleExportPDF = async () => {
     const element = contentRef.current;
     const canvas = await html2canvas(element, {
-      scale: 2,
+      scale: 3,
       backgroundColor: '#1a1a1a', // Match background
       useCORS: true,
     });
