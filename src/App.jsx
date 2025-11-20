@@ -47,19 +47,39 @@ function App() {
 
   const handleExportPDF = async () => {
     const element = contentRef.current;
-    const canvas = await html2canvas(element, {
-      scale: 3,
-      backgroundColor: '#1a1a1a', // Match background
-      useCORS: true,
-    });
 
-    const imgData = canvas.toDataURL('image/png');
-    const pdf = new jsPDF('p', 'mm', 'a4');
-    const pdfWidth = pdf.internal.pageSize.getWidth();
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+    try {
+      const canvas = await html2canvas(element, {
+        scale: 2, // Standard high quality
+        backgroundColor: '#1a1a1a',
+        useCORS: true,
+        windowWidth: 1200, // Force desktop rendering width
+        onclone: (clonedDoc) => {
+          // Force the cloned element to have a fixed desktop width
+          // We need to find the element in the clone. Since we can't use the ref, we'll rely on the class or structure.
+          // Best way is to add a unique ID or class to the ref element.
+          const clonedElement = clonedDoc.getElementById('printable-content');
+          if (clonedElement) {
+            clonedElement.style.width = '1100px'; // Fits nicely in A4 landscape-ish or scaled down
+            clonedElement.style.maxWidth = 'none';
+            clonedElement.style.margin = '0';
+            clonedElement.style.padding = '40px';
+            clonedElement.style.height = 'auto';
+          }
+        }
+      });
 
-    pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
-    pdf.save('cotizacion.pdf');
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('cotizacion_jsdg.pdf');
+    } catch (error) {
+      console.error("PDF Export Error:", error);
+      alert("Hubo un error al generar el PDF. Por favor intente nuevamente.");
+    }
   };
 
   return (
@@ -76,7 +96,7 @@ function App() {
       </div>
 
       {/* Printable Area */}
-      <div ref={contentRef} className="max-w-5xl mx-auto bg-dark p-8 min-h-screen">
+      <div ref={contentRef} id="printable-content" className="max-w-5xl mx-auto bg-dark p-8 min-h-screen">
         <Header />
 
         <div className="mt-12 mb-8 border-b border-gray-700 pb-2 flex justify-between items-end">
