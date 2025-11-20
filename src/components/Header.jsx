@@ -7,7 +7,7 @@ const Header = () => {
             <div className="flex items-center mb-4 md:mb-0">
                 <img src={logo} alt="JSDG Logo" className="h-16 w-auto" />
             </div>
-            <div className="border border-white/50 rounded-full px-6 py-2 text-sm md:text-base tracking-wider text-gray-300">
+            <div className="border rounded-full px-6 py-2 text-sm md:text-base tracking-wider text-gray-300" style={{ borderColor: 'rgba(255,255,255,0.5)' }}>
                 +56 9 7107 5121 | jsdg.studio@gmail.com
             </div>
         </header>

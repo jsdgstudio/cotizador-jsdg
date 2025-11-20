@@ -12,9 +12,9 @@ const QuotationItem = ({ item, index, onChange, onRemove }) => {
     };
 
     return (
-        <div className="grid grid-cols-12 gap-0 border-b border-gray-300 last:border-b-0 text-gray-800 bg-white/90 hover:bg-white transition-colors">
+        <div className="grid grid-cols-12 gap-0 border-b border-gray-300 last:border-b-0 text-gray-800 hover:bg-white transition-colors" style={{ backgroundColor: 'rgba(255,255,255,0.9)' }}>
             {/* Number */}
-            <div className="col-span-1 flex items-center justify-center border-r border-gray-300 p-4 font-bold text-gray-600 bg-gray-400/20">
+            <div className="col-span-1 flex items-center justify-center border-r border-gray-300 p-4 font-bold text-gray-600" style={{ backgroundColor: 'rgba(156,163,175,0.2)' }}>
                 {index + 1}
             </div>
 
