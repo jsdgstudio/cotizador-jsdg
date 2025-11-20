@@ -50,17 +50,16 @@ function App() {
 
     try {
       const canvas = await html2canvas(element, {
-        scale: 2, // Standard high quality
+        scale: 2,
         backgroundColor: '#1a1a1a',
-        useCORS: true,
-        windowWidth: 1200, // Force desktop rendering width
+        useCORS: false, // Try disabling CORS for local assets
+        allowTaint: true, // Allow tainted canvas (might help with local images)
+        logging: true,
+        windowWidth: 1200,
         onclone: (clonedDoc) => {
-          // Force the cloned element to have a fixed desktop width
-          // We need to find the element in the clone. Since we can't use the ref, we'll rely on the class or structure.
-          // Best way is to add a unique ID or class to the ref element.
           const clonedElement = clonedDoc.getElementById('printable-content');
           if (clonedElement) {
-            clonedElement.style.width = '1100px'; // Fits nicely in A4 landscape-ish or scaled down
+            clonedElement.style.width = '1100px';
             clonedElement.style.maxWidth = 'none';
             clonedElement.style.margin = '0';
             clonedElement.style.padding = '40px';
@@ -78,7 +77,7 @@ function App() {
       pdf.save('cotizacion_jsdg.pdf');
     } catch (error) {
       console.error("PDF Export Error:", error);
-      alert("Hubo un error al generar el PDF. Por favor intente nuevamente.");
+      alert(`Error al generar PDF: ${error.message || error}`);
     }
   };
 
