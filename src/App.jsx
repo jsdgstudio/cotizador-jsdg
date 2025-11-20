@@ -50,40 +50,48 @@ function App() {
 
     try {
       const canvas = await html2canvas(element, {
-        scale: 4, // High resolution
+        scale: 3, // Good balance of quality and file size
         backgroundColor: '#1a1a1a',
         useCORS: false,
         allowTaint: true,
         logging: false,
-        windowWidth: 1200, // Force desktop rendering
+        windowWidth: 1200,
         onclone: (clonedDoc) => {
           const clonedElement = clonedDoc.getElementById('printable-content');
           if (clonedElement) {
-            clonedElement.style.width = '1000px'; // Fixed width for consistency
+            // Set width to approx A4 width at 96dpi (794px) minus margins, 
+            // or slightly larger to scale down for better quality.
+            // 1000px is a good target for "desktop" look on A4.
+            clonedElement.style.width = '1000px';
+            clonedElement.style.minHeight = 'none';
+            clonedElement.style.height = 'auto';
             clonedElement.style.maxWidth = 'none';
             clonedElement.style.margin = '0 auto';
             clonedElement.style.padding = '40px';
-            clonedElement.style.height = 'auto';
+            clonedElement.style.overflow = 'visible'; // Ensure nothing is clipped
+
+            // Force text wrapping
+            const allText = clonedElement.querySelectorAll('*');
+            allText.forEach(el => {
+              el.style.whiteSpace = 'normal';
+              el.style.wordWrap = 'break-word';
+            });
           }
         }
       });
 
       const imgData = canvas.toDataURL('image/png');
-
-      // Calculate dimensions to fit A4
       const pdf = new jsPDF('p', 'mm', 'a4');
-      const pageWidth = pdf.internal.pageSize.getWidth(); // 210mm
-      const pageHeight = pdf.internal.pageSize.getHeight(); // 297mm
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
 
       const imgWidth = canvas.width;
       const imgHeight = canvas.height;
 
-      // Scale to fit width
       const ratio = pageWidth / imgWidth;
       const finalHeight = imgHeight * ratio;
 
-      // Set background color for the whole PDF
-      pdf.setFillColor(26, 26, 26); // #1a1a1a
+      pdf.setFillColor(26, 26, 26);
       pdf.rect(0, 0, pageWidth, pageHeight, 'F');
 
       pdf.addImage(imgData, 'PNG', 0, 0, pageWidth, finalHeight);
@@ -94,25 +102,14 @@ function App() {
     }
   };
 
-  const handlePrint = () => {
-    window.print();
-  };
-
   return (
     <div className="min-h-screen bg-dark text-white font-sans p-4 md:p-8">
       {/* Controls */}
-      <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
-        <button
-          onClick={handlePrint}
-          className="bg-gray-600 hover:bg-gray-700 text-white p-4 rounded-full shadow-lg transition-colors flex items-center gap-2"
-          title="Imprimir / Guardar como PDF (Vectorial)"
-        >
-          <span className="font-bold text-xs">Vector</span>
-        </button>
+      <div className="fixed bottom-8 right-8 z-50">
         <button
           onClick={handleExportPDF}
           className="bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg transition-colors flex items-center gap-2"
-          title="Descargar Imagen PDF"
+          title="Descargar PDF"
         >
           <Download size={24} />
         </button>
