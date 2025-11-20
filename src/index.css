@@ -55,8 +55,8 @@ body {
   }
 
   body {
-    background-color: #1a1a1a !important;
-    color: white !important;
+    background-color: white !important;
+    color: #1f2937 !important;
   }
 
   /* Hide controls when printing */
@@ -71,7 +71,7 @@ body {
     max-width: 100% !important;
     margin: 0 !important;
     padding: 10px !important;
-    background-color: #1a1a1a !important;
+    background-color: white !important;
     min-height: auto !important;
     page-break-after: avoid !important;
   }
@@ -91,16 +91,18 @@ body {
     resize: none !important;
   }
 
-  /* Force dark backgrounds */
+  /* Override dark backgrounds for print */
   .bg-dark {
-    background-color: #1a1a1a !important;
+    background-color: white !important;
   }
 
+  /* Keep black header */
   .bg-black {
     background-color: #000000 !important;
     color: white !important;
   }
 
+  /* Light gray backgrounds */
   .bg-gray-200 {
     background-color: #e5e7eb !important;
   }
@@ -113,7 +115,7 @@ body {
     background-color: #9ca3af !important;
   }
 
-  /* Ensure text colors are preserved */
+  /* Text colors for print */
   .text-white {
     color: white !important;
   }
@@ -130,8 +132,35 @@ body {
     color: #9ca3af !important;
   }
 
+  .text-gray-300 {
+    color: #d1d5db !important;
+  }
+
   /* Ensure borders are visible */
   .border-white {
     border-color: white !important;
+  }
+
+  .border-gray-700 {
+    border-color: #374151 !important;
+  }
+
+  /* Header and title text should be dark on white background */
+  header {
+    color: #1f2937 !important;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #1f2937 !important;
+  }
+
+  /* Footer text */
+  footer {
+    color: #6b7280 !important;
   }
 }
