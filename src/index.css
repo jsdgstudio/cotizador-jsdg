@@ -55,8 +55,8 @@ body {
   }
 
   body {
-    background-color: white !important;
-    color: #1f2937 !important;
+    background-color: #1a1a1a !important;
+    color: white !important;
   }
 
   /* Hide controls when printing */
@@ -71,7 +71,7 @@ body {
     max-width: 100% !important;
     margin: 0 !important;
     padding: 10px !important;
-    background-color: white !important;
+    background-color: #1a1a1a !important;
     min-height: auto !important;
     page-break-after: avoid !important;
   }
@@ -91,9 +91,9 @@ body {
     resize: none !important;
   }
 
-  /* Override dark backgrounds for print */
+  /* Dark backgrounds for print */
   .bg-dark {
-    background-color: white !important;
+    background-color: #1a1a1a !important;
   }
 
   /* Keep black header */
@@ -145,9 +145,9 @@ body {
     border-color: #374151 !important;
   }
 
-  /* Header and title text should be dark on white background */
+  /* Header text should be white on dark background */
   header {
-    color: #1f2937 !important;
+    color: white !important;
   }
 
   h1,
@@ -156,11 +156,11 @@ body {
   h4,
   h5,
   h6 {
-    color: #1f2937 !important;
+    color: white !important;
   }
 
   /* Footer text */
   footer {
-    color: #6b7280 !important;
+    color: #9ca3af !important;
   }
 }
