@@ -46,13 +46,16 @@ body {
 @media print {
   @page {
     size: A4;
-    margin: 0;
+    margin: 10mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
   body {
     background-color: #1a1a1a !important;
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
     color: white !important;
   }
 
@@ -62,20 +65,22 @@ body {
     display: none !important;
   }
 
-  /* Ensure content fits */
+  /* Ensure content fits on one page */
   #printable-content {
     width: 100% !important;
     max-width: 100% !important;
     margin: 0 !important;
-    padding: 20px !important;
+    padding: 10px !important;
     background-color: #1a1a1a !important;
-    min-height: 100vh;
+    min-height: auto !important;
+    page-break-after: avoid !important;
   }
 
-  /* Force text colors and backgrounds */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
+  /* Scale down content to fit */
+  #printable-content>* {
+    transform: scale(0.85);
+    transform-origin: top left;
+    width: 117.6%;
   }
 
   /* Ensure inputs look like text */
@@ -83,13 +88,50 @@ body {
   textarea {
     background: transparent !important;
     border: none !important;
-    color: white !important;
     resize: none !important;
   }
 
-  /* Specific overrides for table elements if needed */
+  /* Force dark backgrounds */
+  .bg-dark {
+    background-color: #1a1a1a !important;
+  }
+
   .bg-black {
     background-color: #000000 !important;
     color: white !important;
+  }
+
+  .bg-gray-200 {
+    background-color: #e5e7eb !important;
+  }
+
+  .bg-gray-300 {
+    background-color: #d1d5db !important;
+  }
+
+  .bg-gray-400 {
+    background-color: #9ca3af !important;
+  }
+
+  /* Ensure text colors are preserved */
+  .text-white {
+    color: white !important;
+  }
+
+  .text-gray-800 {
+    color: #1f2937 !important;
+  }
+
+  .text-gray-600 {
+    color: #4b5563 !important;
+  }
+
+  .text-gray-400 {
+    color: #9ca3af !important;
+  }
+
+  /* Ensure borders are visible */
+  .border-white {
+    border-color: white !important;
   }
 }
